@@ -45,3 +45,29 @@ create table produto(
 	id_categoria int8 not null,
 	constraint fk_categoria_produto foreign key (id_categoria) references categoria(id_categoria)
 );
+
+create table endereco(
+	id_endereco int8 primary key auto_increment,
+	nm_endereço varchar(255) not null,
+	logradouro varchar(255) not null,
+	bairro varchar(255) not null,
+	complemento varchar(255),
+	ponto_referencia varchar(255),
+	numero int not null,
+	id_usuario int8 not null,
+	constraint fk_usuario_endereco foreign key (id_usuario) references usuario(id_usuario)
+);
+
+create table carrinho(
+	id_carrinho int8 primary key auto_increment,
+	valor_total decimal(10,2)
+);
+
+create table produto_carrinho(
+	id_produto_carrinho int8 primary key auto_increment,
+	observacao varchar(255),
+	id_produto int8 not null,
+	id_carrinho int8 not null,
+	constraint fk_produto_carrinho_produto foreign key (id_produto) references produto(id_produto),
+	constraint fk_produto_carrinho_carrinho foreign key (id_carrinho) references carrinho(id_carrinho)
+);

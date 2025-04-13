@@ -2,9 +2,6 @@ package com.mistura_boa.mistura_boa.models.dtos;
 
 import java.time.LocalDateTime;
 
-
-import com.mistura_boa.mistura_boa.models.entities.Categoria;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

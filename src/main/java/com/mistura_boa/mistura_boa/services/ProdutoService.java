@@ -7,7 +7,6 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.mistura_boa.mistura_boa.models.dtos.CategoriaDTO;
 import com.mistura_boa.mistura_boa.models.dtos.ProdutoDTO;
 import com.mistura_boa.mistura_boa.models.entities.Produto;
 import com.mistura_boa.mistura_boa.models.filters.FilterSimple;
@@ -72,7 +71,7 @@ public class ProdutoService {
         if(filter==null){
             throw new Exception("Filtro inválido");
         }
-        var produtos = this.implProdutoRepository.search(filter.getNome());
+        var produtos = this.implProdutoRepository.search(filter);
         return produtos.stream().map(produto -> modelMapper.map(produto, ProdutoDTO.class)).toList();
     }
 
