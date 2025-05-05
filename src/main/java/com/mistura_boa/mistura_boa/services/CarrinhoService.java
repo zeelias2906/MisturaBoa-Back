@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class CarrinhoService {
 
     private final ICarrinhoRepository carrinhoRepository;
-    // private final ProdutoCarrinhoService produtoCarrinhoService;
+    private final ProdutoCarrinhoService produtoCarrinhoService;
     private final ModelMapper modelMapper;
 
     public CarrinhoDTO save(CarrinhoDTO dto) {
@@ -42,18 +42,30 @@ public class CarrinhoService {
     public CarrinhoDTO getByIdUsuario(Long idUsuario) throws Exception {
         var carrinho = this.carrinhoRepository.findByIdUsuario(idUsuario);
         if(carrinho == null){
-            throw new Exception("Carrinho vazio, adicione itens ao carinho!");
+            throw new Exception("Carrinho vazio, adicione produtos ao carinho!");
         }
 
         return modelMapper.map(carrinho, CarrinhoDTO.class);
-
-        
     }
 
     public CarrinhoDTO getById(Long id) throws Exception {
         var carrinho = this.carrinhoRepository.findById(id).orElseThrow(() -> new Exception("Carrinho não encontrado"));
 
         return modelMapper.map(carrinho, CarrinhoDTO.class);
+    }
+
+    public void delete(Long idCarrinho, Long idProdutoCarrinho) throws Exception {
+        var carrinho = this.carrinhoRepository.findById(idCarrinho).orElseThrow(() -> new Exception("Carrinho não encontrado"));
+        var prodCar = this.produtoCarrinhoService.getById(idProdutoCarrinho);
+
+        carrinho.setValorTotal(carrinho.getValorTotal().subtract(BigDecimal.valueOf(prodCar.getProduto().getValor())));
+        this.carrinhoRepository.save(carrinho);
+        this.produtoCarrinhoService.delete(idProdutoCarrinho);
+        
+    }
+
+    public void clearCarrinho(Long idCarrinho) {
+        this.carrinhoRepository.deleteById(idCarrinho);
     }
 
 }

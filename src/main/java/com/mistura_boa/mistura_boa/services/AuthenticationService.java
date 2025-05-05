@@ -59,11 +59,11 @@ public class AuthenticationService implements UserDetailsService {
 	}
 
     public void novoUsuario(UsuarioDTO usuarioDTO) throws Exception {
-        if (!usuarioService.isEmailUnique(usuarioDTO.getEmail())){
+        if (!usuarioService.isEmailUnique(usuarioDTO.getEmail(), null)){
             throw new Exception("E-mail já em uso");
         }
 		
-		if (!pessoaService.isCpfUnique(usuarioDTO.getPessoa().getCpf())) {
+		if (!pessoaService.isCpfUnique(usuarioDTO.getPessoa().getCpf(), null)) {
 			throw new Exception("Cpf já em uso");
 		}
 

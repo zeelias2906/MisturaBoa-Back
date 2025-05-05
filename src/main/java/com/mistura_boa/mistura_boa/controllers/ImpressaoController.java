@@ -3,34 +3,31 @@ package com.mistura_boa.mistura_boa.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mistura_boa.mistura_boa.services.ProdutoCarrinhoService;
+import com.mistura_boa.mistura_boa.services.ImpressaoService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("produto-carrinho")
+@RequestMapping("impressao-pedido")
 @RequiredArgsConstructor
-public class ProdutoCarrinhoController {
+public class ImpressaoController {
     
-    private final ProdutoCarrinhoService produtoCarrinhoService;
+    private final ImpressaoService impressaoService;
 
-
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('CLIENTE')")
-	public ResponseEntity<?> save(@PathVariable Long id) throws Exception {
+    @GetMapping("/{idPedido}")
+    @PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> print(@PathVariable Long idPedido) throws Exception {
 		try {
-            produtoCarrinhoService.delete(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(this.impressaoService.imprimirPedido(idPedido));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
 		}
 	}
-
-
 
 }

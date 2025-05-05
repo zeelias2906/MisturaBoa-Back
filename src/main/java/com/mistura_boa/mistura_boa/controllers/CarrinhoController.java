@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,17 @@ public class CarrinhoController {
 	public ResponseEntity<?> getById(@PathVariable Long id) throws Exception {
 		try {
             return ResponseEntity.ok(carrinhoService.getById(id));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
+		}
+	}
+
+	@DeleteMapping("remove-product/{idCarrinho}/{idProdutoCarrinho}")
+    @PreAuthorize("hasRole('CLIENTE')")
+	public ResponseEntity<?> deleteProdutoCarrinho(@PathVariable Long idCarrinho, @PathVariable Long idProdutoCarrinho ) throws Exception {
+		try {
+            carrinhoService.delete(idCarrinho, idProdutoCarrinho);
+            return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
 		}

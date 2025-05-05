@@ -5,14 +5,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.mistura_boa.mistura_boa.models.entities.ProdutoCarrinho;
+import com.mistura_boa.mistura_boa.models.entities.ProdutoPedido;
 
 import jakarta.transaction.Transactional;
 
-public interface IProdutoCarrinhoRepository extends JpaRepository<ProdutoCarrinho, Long> {
+public interface IProdutoPedidoRepository extends JpaRepository<ProdutoPedido, Long> {
 
     @Transactional
     @Modifying
-    @Query ("delete from ProdutoCarrinho pc where pc.id = :id")
+    @Query ("delete from ProdutoPedido pp where pp.id = :id")
     public void deleteById(@Param("id") Long id);
+
 }

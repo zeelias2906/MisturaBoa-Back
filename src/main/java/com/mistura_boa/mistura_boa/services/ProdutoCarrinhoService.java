@@ -21,7 +21,16 @@ public class ProdutoCarrinhoService {
         return modelMapper.map(produtoCarrinho, ProdutoCarrinhoDTO.class);
     }
 
-    public void delete(Long id){
+    public ProdutoCarrinhoDTO getById(Long id) throws Exception {
+        var Prodcarrinho = this.produtoCarrinhoRepository.findById(id);
+        if(Prodcarrinho == null){
+            throw new Exception("Produto não está no carrinho");
+        }
+
+        return modelMapper.map(Prodcarrinho, ProdutoCarrinhoDTO.class);
+    }
+
+    public void delete(Long id){        
         this.produtoCarrinhoRepository.deleteById(id);
     }
 
